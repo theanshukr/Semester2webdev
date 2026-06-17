@@ -8,8 +8,6 @@ function App() {
   const [password, setPassword] = useState("");
 
 
-  
-
   const [error, setError] = useState("");
   const [registeredUsers, setRegisteredUsers] = useState([]);
 
