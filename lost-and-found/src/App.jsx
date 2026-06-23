@@ -16,24 +16,15 @@ import {
 } from "lucide-react";
 import "./App.css";
 
-// ==========================================
-// 1. HELPER COMPONENTS (All in one file for simplicity)
-// ==========================================
-
-/**
- * Navbar Component: Renders the site header, item stats, and dark/light mode toggle.
- */
 function Navbar({ totalCount, lostCount, foundCount, darkMode, onToggleDarkMode }) {
   return (
     <nav className="navbar">
       <div className="navbar-inner">
-        {/* Brand Logo & Name */}
         <div className="brand">
           <Compass size={28} style={{ color: "var(--accent-primary)" }} />
           <span>Campus Lost & Found</span>
         </div>
         
-        {/* Stats and Theme Toggle Action Buttons */}
         <div className="nav-actions">
           <div className="nav-stats">
             <div className="stat-pill" title="Total reported items">
@@ -50,7 +41,6 @@ function Navbar({ totalCount, lostCount, foundCount, darkMode, onToggleDarkMode 
             </div>
           </div>
           
-          {/* Dark Mode Switcher */}
           <button 
             onClick={onToggleDarkMode} 
             className="theme-toggle"
@@ -65,23 +55,19 @@ function Navbar({ totalCount, lostCount, foundCount, darkMode, onToggleDarkMode 
   );
 }
 
-/**
- * AddItemForm Component: Form allowing students to submit new lost/found reports.
- */
 function AddItemForm({ onAddItem }) {
   const [itemName, setItemName] = useState("");
   const [category, setCategory] = useState("Electronics");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [contact, setContact] = useState("");
-  const [type, setType] = useState("Lost"); // Can be either "Lost" or "Found"
+  const [type, setType] = useState("Lost");
   const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
 
-    // Form inputs validation checks (easy for first-year Viva explanations)
     if (!itemName.trim()) {
       setError("Item Name is required.");
       return;
@@ -95,14 +81,12 @@ function AddItemForm({ onAddItem }) {
       return;
     }
 
-    // Phone format validation check (using simple Regular Expression)
     const phoneRegex = /^[+]?[0-9\s-]{7,15}$/;
     if (!phoneRegex.test(contact.trim())) {
       setError("Please enter a valid contact number.");
       return;
     }
 
-    // Create unique item object (uses timestamp as unique ID)
     const newItem = {
       id: Date.now(),
       itemName: itemName.trim(),
@@ -115,7 +99,6 @@ function AddItemForm({ onAddItem }) {
 
     onAddItem(newItem);
 
-    // Reset Form inputs after successful submit
     setItemName("");
     setCategory("Electronics");
     setDescription("");
@@ -132,10 +115,8 @@ function AddItemForm({ onAddItem }) {
       </h2>
       
       <form onSubmit={handleSubmit}>
-        {/* Error Alert Box */}
         {error && <div className="error-alert">{error}</div>}
 
-        {/* Input: Report Type Segmented Control */}
         <div className="form-group">
           <label className="form-label">Report Type</label>
           <div className="type-segmented-control">
@@ -154,7 +135,6 @@ function AddItemForm({ onAddItem }) {
           </div>
         </div>
 
-        {/* Input: Item Name */}
         <div className="form-group">
           <label className="form-label" htmlFor="itemName">Item Name *</label>
           <input
@@ -167,7 +147,6 @@ function AddItemForm({ onAddItem }) {
           />
         </div>
 
-        {/* Input: Category Select Option */}
         <div className="form-group">
           <label className="form-label" htmlFor="category">Category</label>
           <select
@@ -186,7 +165,6 @@ function AddItemForm({ onAddItem }) {
           </select>
         </div>
 
-        {/* Input: Location */}
         <div className="form-group">
           <label className="form-label" htmlFor="location">Location *</label>
           <input
@@ -199,7 +177,6 @@ function AddItemForm({ onAddItem }) {
           />
         </div>
 
-        {/* Input: Contact */}
         <div className="form-group">
           <label className="form-label" htmlFor="contact">Contact Number *</label>
           <input
@@ -212,7 +189,6 @@ function AddItemForm({ onAddItem }) {
           />
         </div>
 
-        {/* Input: Description */}
         <div className="form-group">
           <label className="form-label" htmlFor="description">Description</label>
           <textarea
@@ -232,9 +208,6 @@ function AddItemForm({ onAddItem }) {
   );
 }
 
-/**
- * SearchBar Component: Contains search text field and filters.
- */
 function SearchBar({
   searchQuery,
   onSearchQueryChange,
@@ -246,7 +219,6 @@ function SearchBar({
   return (
     <div className="glass-panel search-container animate-fade-in">
       <div className="search-inputs">
-        {/* Text Search Input */}
         <div className="search-wrapper">
           <Search size={18} className="search-icon" />
           <input
@@ -258,7 +230,6 @@ function SearchBar({
           />
         </div>
 
-        {/* Category Filter dropdown */}
         <div className="category-select-wrapper">
           <select
             className="form-input pointer-cursor"
@@ -277,7 +248,6 @@ function SearchBar({
         </div>
       </div>
 
-      {/* Tabs Filter for Lost / Found / All */}
       <div className="filter-tabs">
         <button
           className={`filter-tab ${filterType === "All" ? "active" : ""}`}
@@ -302,13 +272,9 @@ function SearchBar({
   );
 }
 
-/**
- * ItemCard Component: Displays summary details for each reported item.
- */
 function ItemCard({ item, onDelete }) {
   const { id, itemName, category, description, location, contact, type } = item;
 
-  // Convert the timestamp ID into a readable date format
   const formattedDate = new Date(id).toLocaleDateString(undefined, {
     month: "short",
     day: "numeric",
@@ -325,7 +291,6 @@ function ItemCard({ item, onDelete }) {
         {description ? description : <i>No description provided.</i>}
       </p>
       
-      {/* Details: Location and Phone */}
       <div className="card-detail-item">
         <MapPin size={15} />
         <span>📍 {location}</span>
@@ -338,7 +303,6 @@ function ItemCard({ item, onDelete }) {
         </span>
       </div>
 
-      {/* Card footer containing date and delete button */}
       <div className="card-footer">
         <span className="card-date">
           <Calendar size={12} className="calendar-icon" />
@@ -357,25 +321,18 @@ function ItemCard({ item, onDelete }) {
   );
 }
 
-// ==========================================
-// 2. MAIN APPLICATION COMPONENT
-// ==========================================
-
 function App() {
-  // --- React State Hooks ---
   const [items, setItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [filterType, setFilterType] = useState("All");
   const [darkMode, setDarkMode] = useState(false);
 
-  // --- Load saved items from Browser LocalStorage on mount ---
   useEffect(() => {
     const savedItems = JSON.parse(localStorage.getItem("items")) || [];
     setItems(savedItems);
   }, []);
 
-  // --- Apply system/stored Dark Mode theme on mount ---
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -388,7 +345,6 @@ function App() {
     }
   }, []);
 
-  // --- Toggle Dark Mode theme ---
   const toggleDarkMode = () => {
     const nextMode = !darkMode;
     setDarkMode(nextMode);
@@ -401,26 +357,22 @@ function App() {
     }
   };
 
-  // --- Create & Add Item ---
   const handleAddItem = (newItem) => {
     const updatedItems = [newItem, ...items];
     setItems(updatedItems);
     localStorage.setItem("items", JSON.stringify(updatedItems));
   };
 
-  // --- Delete Item ---
   const handleDeleteItem = (id) => {
     const updatedItems = items.filter((item) => item.id !== id);
     setItems(updatedItems);
     localStorage.setItem("items", JSON.stringify(updatedItems));
   };
 
-  // --- Compute Summary Statistics ---
   const totalCount = items.length;
   const lostCount = items.filter((item) => item.type === "Lost").length;
   const foundCount = items.filter((item) => item.type === "Found").length;
 
-  // --- Filter and Search logic ---
   const filteredItems = items.filter((item) => {
     const matchesSearch =
       item.itemName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -437,7 +389,6 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* Top Navbar */}
       <Navbar
         totalCount={totalCount}
         lostCount={lostCount}
@@ -446,16 +397,12 @@ function App() {
         onToggleDarkMode={toggleDarkMode}
       />
 
-      {/* Main Layout Grid */}
       <main className="main-content">
-        {/* Left Section: Add Item Form */}
         <section className="sidebar-panel">
           <AddItemForm onAddItem={handleAddItem} />
         </section>
 
-        {/* Right Section: Filters & Reported Items Grid */}
         <section className="items-section">
-          {/* Search and Category Filter Bar */}
           <SearchBar
             searchQuery={searchQuery}
             onSearchQueryChange={setSearchQuery}
@@ -465,14 +412,12 @@ function App() {
             onFilterTypeChange={setFilterType}
           />
 
-          {/* Dynamic title with item counts */}
           <div className="items-section-header">
             <h2>
               Reported Items ({filteredItems.length})
             </h2>
           </div>
 
-          {/* Cards Grid */}
           <div className="items-grid">
             {filteredItems.length > 0 ? (
               filteredItems.map((item) => (
@@ -483,7 +428,6 @@ function App() {
                 />
               ))
             ) : (
-              /* Empty State (when no items matched or list is empty) */
               <div className="glass-panel empty-state animate-fade-in">
                 <div className="empty-state-icon">
                   <AlertCircle size={32} />
