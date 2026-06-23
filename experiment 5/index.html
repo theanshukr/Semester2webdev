@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Salary Management System</title>
+    <link rel="stylesheet" href="style5.css">
+
+
+</head>
+
+
+<body>
+
+<div class="container">
+    <h2>Employee Salary Management System</h2>
+
+    <input type="text" id="name" placeholder="Employee Name">
+    <input type="number" id="id" placeholder="Employee ID">
+    <input type="number" id="salary" placeholder="Salary">
+    <input type="text" id="department" placeholder="Department">
+
+    <button onclick="addEmployee()">Add Employee</button>
+    <button onclick="displayAll()">Display All</button>
+    <button onclick="salaryAbove()">Salary > 50000</button>
+    <button onclick="totalSalary()">Total Salary</button>
+    <button onclick="averageSalary()">Average Salary</button>
+    <button onclick="countDepartment()">Count by Department</button>
+
+    <div class="output" id="output"></div>
+    <p class="myname">@ ANUPAM BHATT,2025B01011317</p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
