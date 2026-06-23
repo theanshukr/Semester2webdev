@@ -4,5 +4,5 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/Semester2webdev/lost-and-found/',
+  base: '/Semester2webdev/',
 })
